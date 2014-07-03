@@ -73,13 +73,3 @@ var doAction = function(data){
 };
 
 
-$(function(){
-
-
-  $('#play').on('click',function(){
-    $(this).hide();
-    $('#play').show();
-
-  });
-
-});

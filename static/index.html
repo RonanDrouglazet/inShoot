@@ -10,91 +10,9 @@
     <script src="http://code.jquery.com/jquery-1.11.1.js"></script>
     <script src="http://localhost:8080/socket.io/socket.io.js"></script>
 
-    <script type="text/javascript">
+    <script src="/frontend/front.js"></script>
+    <script src="/frontend/movableObjectClass.js"></script>
 
-        var socket = io('http://localhost:8080');
-        var joueur = {};
-
-        socket.on('playerType', function (data) {
-
-            console.log(data);
-
-            joueur.type = data.type;
-
-            if(joueur.type == 1){
-                $('#type').text('Vous êtes goal');
-                $('title').append(' - Goal '+data.id+'');
-            }
-            else if(joueur.type == 2){
-                $('#type').text('Vous êtes attaquant');
-                $('title').append(' - Attaquant '+data.id+'');
-            }
-
-            ready(data.ready);
-
-        });
-
-
-        socket.on('ready', function () {
-            ready(true);
-        });
-
-        socket.on('score', function(data){
-
-
-
-        });
-
-        socket.on('shoot', function(data){
-
-
-
-        });
-
-        socket.on('stop', function(data){
-
-
-
-        });
-
-
-        var shoot = function(){
-            socket.emit('shoot', { my: 'data' });
-        };
-
-        var stop = function(){
-
-        };
-
-
-        var ready = function(isReady){
-
-            if(isReady){
-                $('#state').text('');
-            }
-            else{
-                $('#state').text('En attente du second joueur...');
-            }
-
-        };
-
-
-        $('#play').click(function(){
-
-            $(this).hide();
-            $('#play').show();
-            //$('')
-
-        });
-
-
-
-        var doAction = function(data){
-            console.log(data);
-        };
-
-
-    </script>
 
 </head>
 <body>
