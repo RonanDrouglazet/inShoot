@@ -10,10 +10,12 @@ socket.on('playerType', function (data) {
   if(joueur.type == 1){
     $('#type').text('Vous êtes goal');
     $('title').append(' - Goal '+data.id+'');
+    new MovableObject("goal");
   }
   else if(joueur.type == 2){
     $('#type').text('Vous êtes attaquant');
     $('title').append(' - Attaquant '+data.id+'');
+    new MovableObject("ball");
   }
 
   ready(data.ready);
