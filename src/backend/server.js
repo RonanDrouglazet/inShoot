@@ -28,10 +28,13 @@ socketIo.on("connection", function (socket) {
     socket.on("shoot", getShoot);
     socket.on("shootStop", getStop);
 
+    socket.on("shoot", getShoot);
+    socket.on("shootStop", getStop);
+
     socket.emit("playerType", {id: response.id, type: response.type, ready: matchReady});
 
     if (matchReady) {
-        gsession[response.id].goal.io.emit("ready");
+        gsession[response.id].goal.io.emit("ready", {data: true});
     }
 });
 
@@ -79,6 +82,7 @@ var getShoot = function(data) {
 }
 
 var getStop = function(data) {
+
     if (data.goal) {
         gsession[data.id].striker.score++;
     } else {
@@ -92,6 +96,7 @@ var getStop = function(data) {
 
     gsession[data.id].goal.io.emit("score", {data: score});
     gsession[data.id].striker.io.emit("score", {data: score});
+
 }
 
 serverIo.listen(process.env.PORT || 8080);
