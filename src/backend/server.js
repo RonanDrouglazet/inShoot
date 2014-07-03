@@ -6,7 +6,7 @@ var inShoot = express();
 var serverIo = http.createServer(inShoot);
 var socketIo = io.listen(serverIo);
 
-var session = [];
+var gsession = [];
 var PLAYER_TYPE = {
     GOAL: 1,
     STRIKER: 2
@@ -30,7 +30,7 @@ socketIo.on("connection", function (socket) {
 var checkSession = function(socket) {
     var session = null;
 
-    session.forEach(function(obj, index) {
+    gsession.forEach(function(obj, index) {
         if (!obj.goal) {
             obj.goal = {
                 id: obj.id,
@@ -56,13 +56,13 @@ var checkSession = function(socket) {
 }
 
 var createNewSession = function(socket) {
-    session.push({
-        id: session.length,
-        goal: {id: session.length, io: socket, type: PLAYER_TYPE.GOAL},
+    gsession.push({
+        id: gsession.length,
+        goal: {id: gsession.length, io: socket, type: PLAYER_TYPE.GOAL},
         striker: null
     });
 
-    return session[session.length - 1].goal;
+    return gsession[gsession.length - 1].goal;
 }
 
 serverIo.listen(process.env.PORT || 8080);
