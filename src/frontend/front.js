@@ -52,6 +52,16 @@ var ready = function(isReady){
 
   if(isReady){
     $('#state').text('');
+    $('#game').show();
+    $('#play').hide();
+
+    if (joueur.type === 1) {
+        $('#goal').show();
+        new MovableObject("goal");
+    } else {
+        $('#ball').show();
+        new MovableObject("ball");
+    }
   }
   else{
     $('#state').text('En attente du second joueur...');
@@ -70,6 +80,10 @@ var ready = function(isReady){
  */
 var doAction = function(data){
   console.log(data);
+};
+
+var sqr = function(a) {
+  return a * a;
 };
 
 

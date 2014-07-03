@@ -1,9 +1,11 @@
 var touchStartHandler = function(e) {
+  e.preventDefault();
   this.startCoord = e.touches[0];
   this.touchTime = (new Date()).getTime();
 };
 
 var touchEndHandler = function(e) {
+  e.preventDefault();
   this.shoot.direction = {
     x: Math.abs(this.startCoord.screenX - e.changedTouches[0].screenX),
     y: Math.abs(this.startCoord.screenY - e.changedTouches[0].screenY),
@@ -13,6 +15,10 @@ var touchEndHandler = function(e) {
   doAction(this.shoot);
 };
 
+var touchMoveHandler = function(e) {
+  e.preventDefault();
+}
+
 var MovableObject = function(id) {
 
   var ob = document.getElementById(id);
@@ -20,6 +26,7 @@ var MovableObject = function(id) {
   this.startCoord = {};
   this.touchTime = null;
   ob.addEventListener("touchstart", touchStartHandler.bind(this), false);
+  ob.addEventListener("touchmove", touchMoveHandler.bind(this), false);
   ob.addEventListener("touchend", touchEndHandler.bind(this), false);
 
   this.shoot = {
