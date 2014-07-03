@@ -24,7 +24,7 @@ inShoot.use('/', express.static(__dirname + '/../../static/'))
 socketIo.on("connection", function (socket) {
     var response = checkSession(socket);
 
-    socket.emit("playerType", {id: response.id, type: response.type});
+    socket.emit("playerType", {id: response.id, type: response.type, ready: (gsession[response.id].goal && gsession[response.id].striker) ? true : false});
 });
 
 var checkSession = function(socket) {
