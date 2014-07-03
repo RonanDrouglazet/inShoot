@@ -6,6 +6,12 @@ var inShoot = express();
 var serverIo = http.createServer(inShoot);
 var socketIo = io.listen(serverIo);
 
+var session = [];
+var PLAYER_TYPE = {
+    GOAL: 1,
+    STRIKER: 2
+};
+
 //static
 inShoot.use('/', express.static(__dirname + '/../../static/'))
 
@@ -14,6 +20,50 @@ inShoot.use('/', express.static(__dirname + '/../../static/'))
     res.setHeader('Content-Type', 'text/plain');
     res.send(404, 'Not Found');
 });
+
+socketIo.on("connection", function (socket) {
+    var response = checkSession(socket);
+
+    socket.emit("playerType", {id: response.id, type: response.type});
+});
+
+var checkSession = function(socket) {
+    var session = null;
+
+    session.forEach(function(obj, index) {
+        if (!obj.goal) {
+            obj.goal = {
+                id: obj.id,
+                io: socket,
+                type: PLAYER_TYPE.GOAL
+            }
+            session = obj.goal;
+        } else if (!obj.striker) {
+            obj.striker = {
+                id: obj.id,
+                io: socket,
+                type: PLAYER_TYPE.STRIKER
+            }
+            session = obj.striker;
+        }
+    });
+
+    if (!session) {
+        session = createNewSession(socket);
+    }
+
+    return session;
+}
+
+var createNewSession = function(socket) {
+    session.push({
+        id: session.length,
+        goal: {id: session.length, io: socket, type: PLAYER_TYPE.GOAL},
+        striker: null
+    });
+
+    return session[session.length - 1].goal;
+}
 
 serverIo.listen(process.env.PORT || 8080);
 
