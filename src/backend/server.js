@@ -23,7 +23,10 @@ inShoot.use('/', express.static(__dirname + '/../../static/'))
 
 socketIo.on("connection", function (socket) {
     var response = checkSession(socket);
-    var matchReady = (gsession[response.id].goal && gsession[response.id].striker);
+    var matchReady = !!(gsession[response.id].goal && gsession[response.id].striker);
+
+    socket.on("shoot", getShoot);
+    socket.on("shootStop", getStop);
 
     socket.emit("playerType", {id: response.id, type: response.type, ready: matchReady});
 
@@ -37,18 +40,10 @@ var checkSession = function(socket) {
 
     gsession.forEach(function(obj, index) {
         if (!obj.goal) {
-            obj.goal = {
-                id: obj.id,
-                io: socket,
-                type: PLAYER_TYPE.GOAL
-            }
+            obj.goal = createPlayer(obj, PLAYER_TYPE.GOAL, socket);
             session = obj.goal;
         } else if (!obj.striker) {
-            obj.striker = {
-                id: obj.id,
-                io: socket,
-                type: PLAYER_TYPE.STRIKER
-            }
+            obj.striker = createPlayer(obj, PLAYER_TYPE.STRIKER, socket);
             session = obj.striker;
         }
     });
@@ -68,6 +63,23 @@ var createNewSession = function(socket) {
     });
 
     return gsession[gsession.length - 1].goal;
+}
+
+var createPlayer = function(parent, type, socket) {
+    return {
+        id: parent.id,
+        io: socket,
+        type: type,
+        score: 0
+    }
+}
+
+var getShoot = function(data) {
+    gsession[data.id].goal.emit("shoot", {data: data});
+}
+
+var getStop = function(data) {
+    //gsession[data.id].
 }
 
 serverIo.listen(process.env.PORT || 8080);
