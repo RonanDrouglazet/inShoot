@@ -23,8 +23,13 @@ inShoot.use('/', express.static(__dirname + '/../../static/'))
 
 socketIo.on("connection", function (socket) {
     var response = checkSession(socket);
+    var matchReady = (gsession[response.id].goal && gsession[response.id].striker);
 
-    socket.emit("playerType", {id: response.id, type: response.type, ready: (gsession[response.id].goal && gsession[response.id].striker) ? true : false});
+    socket.emit("playerType", {id: response.id, type: response.type, ready: matchReady});
+
+    if (matchReady) {
+        gsession[response.id].goal.io.emit("ready");
+    }
 });
 
 var checkSession = function(socket) {
