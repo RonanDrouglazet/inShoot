@@ -79,7 +79,19 @@ var getShoot = function(data) {
 }
 
 var getStop = function(data) {
-    //gsession[data.id].
+    if (data.goal) {
+        gsession[data.id].striker.score++;
+    } else {
+        gsession[data.id].goal.score++;
+    }
+
+    var score = {
+        goal: gsession[data.id].goal.score,
+        striker: gsession[data.id].striker.score
+    };
+
+    gsession[data.id].goal.io.emit("score", {data: score});
+    gsession[data.id].striker.io.emit("score", {data: score});
 }
 
 serverIo.listen(process.env.PORT || 8080);
