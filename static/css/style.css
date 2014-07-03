@@ -80,7 +80,7 @@ body{
 
 #ball {
     display: none;
-    background-image: url('../img/soccer_ball.png');
+    background-image: url('../img/new_ball.png');
     background-repeat: no-repeat;
     background-size: cover;
     width: 50px;
@@ -92,14 +92,14 @@ body{
 }
 
 #goal {
-    background-image: url('../img/goalkeeper.png');
+    background-image: url('../img/new_goalkeeper_wait.png');
     background-repeat: no-repeat;
     background-size: cover;
     display: none;
-    width: 86px;
-    height: 38px;
+    width: 122px;
+    height: 68px;
     position: absolute;
     left: 50%;
-    margin-left: -43px;
-    top: 35%;
+    margin-left: -61px;
+    top: 37%;
 }
