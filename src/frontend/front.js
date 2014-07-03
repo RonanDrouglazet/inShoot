@@ -56,7 +56,7 @@ socket.on('shoot', function(data){
         alert('but');
       }
     });
-  }, 10000);
+  }, 4000);
 
 
 });
