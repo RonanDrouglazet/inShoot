@@ -3,6 +3,9 @@
 <head>
     <meta charset="utf-8">
     <title>inShoot</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+
+    <link rel=stylesheet type="text/css" href="css/style.css">
 
     <script src="http://code.jquery.com/jquery-1.11.1.js"></script>
     <script src="http://localhost:8080/socket.io/socket.io.js"></script>
@@ -19,11 +22,11 @@
             joueur.type = data.type;
 
             if(joueur.type == 1){
-                $('h1').text('vous êtes goal !!');
+                $('#type').text('Vous êtes goal');
                 $('title').append(' - Goal '+data.id+'');
             }
             else if(joueur.type == 2){
-                $('h1').text('vous êtes attaquant !!');
+                $('#type').text('Vous êtes attaquant');
                 $('title').append(' - Attaquant '+data.id+'');
             }
 
@@ -36,25 +39,77 @@
             ready(true);
         });
 
+        socket.on('score', function(data){
 
-        function ready(isReady){
+
+
+        });
+
+        socket.on('shoot', function(data){
+
+
+
+        });
+
+        socket.on('stop', function(data){
+
+
+
+        });
+
+
+        var shoot = function(){
+            socket.emit('shoot', { my: 'data' });
+        };
+
+        var stop = function(){
+
+        };
+
+
+        var ready = function(isReady){
 
             if(isReady){
-                $('#state').text('Go !');
+                $('#state').text('');
             }
             else{
-                $('#state').text('En attente du second joueur');
+                $('#state').text('En attente du second joueur...');
             }
 
-        }
+        };
+
+
+        $('#play').click(function(){
+
+            $(this).hide();
+            $('#play').show();
+            //$('')
+
+        });
+
+
+
+        var doAction = function(data){
+            console.log(data);
+        };
 
 
     </script>
+
 </head>
 <body>
+<div id="game">
 
-<h1></h1>
+</div>
+
 <div id="state"></div>
+
+<div id="play">
+    JOUER
+    <div id="type"></div>
+</div>
+
+
 
 
 
