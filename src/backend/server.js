@@ -14,6 +14,7 @@ var PLAYER_TYPE = {
 
 //static
 inShoot.use('/', express.static(__dirname + '/../../static/'))
+.use('/frontend', express.static(__dirname + '/../frontend/'))
 
 //404 not found
 .use(function(req, res, next) {
@@ -24,9 +25,6 @@ inShoot.use('/', express.static(__dirname + '/../../static/'))
 socketIo.on("connection", function (socket) {
     var response = checkSession(socket);
     var matchReady = !!(gsession[response.id].goal && gsession[response.id].striker);
-
-    socket.on("shoot", getShoot);
-    socket.on("shootStop", getStop);
 
     socket.on("shoot", getShoot);
     socket.on("shootStop", getStop);
