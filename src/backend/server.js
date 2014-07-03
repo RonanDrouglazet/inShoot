@@ -76,7 +76,7 @@ var createPlayer = function(parent, type, socket) {
 }
 
 var getShoot = function(data) {
-    gsession[data.id].goal.emit("shoot", {data: data});
+    gsession[data.id].goal.io.emit("shoot", data);
 }
 
 var getStop = function(data) {

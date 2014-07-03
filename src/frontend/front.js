@@ -6,6 +6,9 @@ socket.on('playerType', function (data) {
   console.log(data);
 
   joueur.type = data.type;
+  joueur.id = data.id;
+
+  console.log('playertype',data);
 
   if(joueur.type == 1){
     $('#type').text('Vous êtes goal');
@@ -33,17 +36,34 @@ socket.on('score', function(data){
 
 });
 
+
 socket.on('shoot', function(data){
 
+  $('#ball').show();
+  $('#ball').css({top : data.endPoint.y+'px',left : data.endPoint.x+'px'});
+  $('#ball').animate({opacity : 0});
+
+  setTimeout(function(){
+    $('#ball').css({opacity : 1, top: "80%", left:"50%"});
+    $('#ball').animate({top : data.endPoint.y+'px',left : data.endPoint.x+'px'}, 500, function() {
+      var left  = parseInt($("#goal")[0].offsetLeft);
+      var top = parseInt($("#goal")[0].offsetTop);
+      console.log(left);
+      console.log(data.endPoint.x )
+      if (data.endPoint.x >= left && data.endPoint.x <= (left + parseInt($('#ball').css("width"))) ){
+        alert('pas but');
+      } else {
+        alert('but');
+      }
+    });
+  }, 10000);
 
 
 });
 
 
 
-var shoot = function(){
-  socket.emit('shoot', { my: 'data' });
-};
+
 
 var stop = function(){
 
@@ -78,10 +98,23 @@ var ready = function(isReady){
  * @param data
  * data.vitesse
  * data.directionX
- * data.diractionY
+ * data.directionY
  */
-var doAction = function(data){
-  console.log(data);
+var doAction = function(obj){
+
+  var data = {};
+  data.id = joueur.id;
+  data.endPoint  = obj.endPoint;
+
+  // goal
+  if(joueur.type == 1){
+    socket.emit('shootStop', data);
+  }
+  else if(joueur.type == 2){
+    socket.emit('shoot', data);
+  }
+
+
 };
 
 var sqr = function(a) {

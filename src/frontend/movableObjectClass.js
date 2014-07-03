@@ -12,8 +12,9 @@ var touchEndHandler = function(e) {
   };
   this.shoot.distance = Math.sqrt(sqr(this.shoot.direction.x) + sqr(this.shoot.direction.y));
   this.shoot.vitesse = this.shoot.distance / ((new Date()).getTime() - this.touchTime);
-  //doAction(this.shoot);
-  console.log(this.shoot);
+  this.shoot.endPoint.x = e.changedTouches[0].pageX;
+  this.shoot.endPoint.y = e.changedTouches[0].pageY;
+  doAction(this.shoot);
   move(this);
 };
 
@@ -24,7 +25,7 @@ var touchMoveHandler = function(e) {
 
 var move = function(movableObject) {
 
-  movableObject.ob.style.transition ="all 1s ease-in-out";
+  movableObject.ob.style.transition ="all 1s ease-out";
   var movement = {
     x : movableObject.shoot.direction.x - movableObject.ob.offsetLeft - (movableObject.ob.offsetWidth / 2),
     y : movableObject.shoot.direction.y - movableObject.ob.offsetTop - (movableObject.ob.offsetHeight / 2)
@@ -48,7 +49,11 @@ var MovableObject = function(id) {
       x: 0,
       y: 0
     },
-    distance: 0
+    distance: 0,
+    endPoint: {
+      x: 0,
+      y: 0
+    }
   };
 
   return this;
