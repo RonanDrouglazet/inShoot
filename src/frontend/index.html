@@ -1,1 +1,51 @@
-index.html
+<!doctype html>
+<html lang="fr">
+<head>
+    <meta charset="utf-8">
+    <title>inShoot</title>
+
+    <script src="http://code.jquery.com/jquery-1.11.1.js"></script>
+    <script src="http://localhost:8080/socket.io/socket.io.js"></script>
+
+    <script type="text/javascript">
+
+        var socket = io('http://localhost:8080');
+        var joueur = {};
+
+        socket.on('playerType', function (data) {
+
+            joueur.type = data.type;
+
+            if(joueur.type == 1){
+                $('h1').text('vous êtes goal !!');
+            }
+            else if(joueur.type == 2){
+                $('h1').text('vous êtes attaquant !!');
+            }
+
+        });
+
+
+        function ready(data){
+
+            if(data.ready){
+                $('#state').text('Go !');
+            }
+            else{
+                $('#state')
+            }
+
+        }
+
+
+    </script>
+</head>
+<body>
+
+<h1></h1>
+<div id="state"></div>
+
+
+
+</body>
+</html>
