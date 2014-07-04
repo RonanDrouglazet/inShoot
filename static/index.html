@@ -1,43 +1,22 @@
 <!doctype html>
 <html lang="fr">
-<head>
-    <meta charset="utf-8">
-    <title>inShoot</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1"/>
-
-    <link rel=stylesheet type="text/css" href="css/style.css">
-
-    <script src="http://code.jquery.com/jquery-1.11.1.js"></script>
-    <script src="http://localhost:8080/socket.io/socket.io.js"></script>
-
-    <script src="/frontend/front.js"></script>
-    <script src="/frontend/movableObjectClass.js"></script>
-
-
-</head>
-<body>
-<div id="game">
-
-</div>
-
-<div id="state"></div>
-
-<div id="play">
-    JOUER
-    <div id="type"></div>
-</div>
-
-<div id="ball">
-
-</div>
-
-<div id="goal">
-
-</div>
-
-
-
-
-
-</body>
+    <head>
+        <meta charset="utf-8">
+        <title>inShoot</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1"/>
+        <link rel=stylesheet type="text/css" href="css/style.css">
+        <script src="/socket.io/socket.io.js"></script>
+        <script src="/frontend/front.js"></script>
+        <script src="/frontend/movableObjectClass.js"></script>
+    </head>
+    <body>
+        <div id="game"></div>
+        <div id="state"></div>
+        <div id="play">
+            <div id="type"></div>
+        </div>
+        <div id="ball"></div>
+        <div id="goal"></div>
+        <div id="wait">PLEASE WAIT FOR THE SECOND PLAYER</div>
+    </body>
 </html>

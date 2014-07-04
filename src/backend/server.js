@@ -23,9 +23,10 @@ inShoot.use('/', express.static(__dirname + '/../../static/'))
 });
 
 socketIo.on("connection", function (socket) {
+
     var response = checkSession(socket);
     var matchReady = !!(gsession[response.id].goal && gsession[response.id].striker);
-
+    console.log("NEW CONNECTION:" + response.id);
     socket.on("shoot", getShoot);
     socket.on("shootStop", getStop);
 
@@ -59,7 +60,7 @@ var checkSession = function(socket) {
 var createNewSession = function(socket) {
     gsession.push({
         id: gsession.length,
-        goal: {id: gsession.length, io: socket, type: PLAYER_TYPE.GOAL},
+        goal: createPlayer({id: gsession.length}, PLAYER_TYPE.GOAL, socket),
         striker: null
     });
 
@@ -92,9 +93,8 @@ var getStop = function(data) {
         striker: gsession[data.id].striker.score
     };
 
-    gsession[data.id].goal.io.emit("score", {data: score});
-    gsession[data.id].striker.io.emit("score", {data: score});
-
+    gsession[data.id].goal.io.emit("score", score);
+    gsession[data.id].striker.io.emit("score", score);
 }
 
 serverIo.listen(process.env.PORT || 8080);
